@@ -18,9 +18,9 @@ main:
 	push ebp
 	mov ebp, esp
 
-	;;  Get filename from command line (argv[1])
-	mov eax, [ebp + 12]	; argv is at ebp+8, argv[1] at ebp+12
-	mov eax, [eax + 4]	; First argument after program name
+	;;  Get filename from command line 
+	mov eax, [ebp + 12]	
+	mov eax, [eax + 4]	 
 
 	;;  Open file
 	push mode_read
@@ -35,38 +35,38 @@ main:
 	;;  Read number of values
 	push num_values
 	push fmt_input
-	push eax		; File pointer
+	push eax		
 	call fscanf
 	add esp, 12
 
 	;;  Read integers into array
 	mov ecx, [num_values] ; Number of integers to read
-	mov edi, array    ; Destination array
-	mov ebx, [file_ptr]	; File pointer
+	mov edi, array    
+	mov ebx, [file_ptr]	
 
 read_loop:
 	push ecx		; Save counter
-	push edi		; Array position
+	push edi	
 	push fmt_input11
-	push ebx		; File pointer
+	push ebx
 	call fscanf
 	add esp, 12
-	pop ecx		; Restore counter
+	pop ecx		
 
-	cmp eax, 1		; Check if read was successful
-	jne close_file	; Exit if fscanf fails
+	cmp eax, 1		
+	jne close_file	
 
-	add edi, 4		; Move to next array position
+	add edi, 4	
 	dec ecx		; Decrease counter
-	jnz read_loop	; Continue if more numbers to read
+	jnz read_loop	
 
 	;;  Calculate sum
 	xor eax, eax	; Clear sum
-	mov ecx, [num_values] ; Number of integers
-	mov esi, array    ; Source array
+	mov ecx, [num_values] 
+	mov esi, array   
 
 sum_loop:
-	add eax, [esi]	; Add current number to sum
+	add eax, [esi]	; Add  number to sum
 	add esi, 4	; Move to next number
 	loop sum_loop
 
